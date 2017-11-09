@@ -1,0 +1,10 @@
+Generic dataset description
+contact,PCIC/ CMIP5,M,Name and contact information of person who can provide more information about the dataset.
+dataset,PCIC,M,String identifying the dataset.
+dataset_id,PCIC,M,"Filename-friendly (short, no funky characters) label that identifies the dataset."
+frequency,PCIC/ CMIP5,O,"String indicating the interval between individual time-samples in the dataset. Fixed set of valid values; see standard.
+Include only if different from this-dataset frequency."
+institute_id,PCIC/ CMIP5,M,Short acronym denoting the institution that generated the dataset.
+institution,PCIC/ CMIP5,M,Long-form string identifying in long form the institution that generated the dataset.
+references,PCIC/CF,M,Published or web-based references that describe the dataset or methods used to produce it.
+version,PCIC,M,String identifying the specific version of the  dataset that was used to generate this file. It can be any string that serves the purpose.

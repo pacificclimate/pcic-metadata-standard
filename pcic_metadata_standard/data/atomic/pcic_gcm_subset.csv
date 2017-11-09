@@ -1,0 +1,19 @@
+PCIC subset of CMIP5 GCM metadata
+experiment,PCIC/CMIP5,M,"String providing a title for the experiment, as specified in the controlled vocabulary.
+Note: This is not the same as the CORDEX attribute driving_experiment. This definition follows CMIP5 standard."
+experiment_id,PCIC/CMIP5,M,"Short string identifying the experiment, as specified in the controlled vocabulary."
+forcing,PCIC/CMIP5,O,"String containing a list of the “forcing” agents that should cause the climate to change in the experiment.
+Optional because the information in it is only sometimes interesting, and is often duplicated by driving_experiment."
+frequency,PCIC/CMIP5,O,"String indicating the interval between individual time-samples in the atomic dataset. Fixed set of valid values; see standard.
+Include only if different from frequency."
+initialization_method,PCIC/CMIP5,M,"Integer (≥1) referring to the initialization method used or different observational datasets used to initialize.
+Contributes to rip ensemble member code."
+institute_id,PCIC/CMIP5,M,Short acronym denoting the “institution”.
+institution,PCIC/CMIP5,M,String identifying in long form the institution that generated the data.
+model_id,PCIC/CORDEX/ CMIP5,M,String containing an acronym that identifies the model used to generate the output
+physics_version,PCIC/CMIP5,M,"Integer (≥1) referring to the physics version used by the model.
+Contributes to rip ensemble member code."
+realization,PCIC/CMIP5,M,"Integer (≥1) distinguishing among members of an ensemble of simulations (e.g., 1, 2, 3, etc.).
+Contributes to rip ensemble member code."
+tracking_id,PCIC/CMIP5,O,"Tracking id of driving file.
+If tracking_id is present in driving file, set this attribute to it. Otherwise, don't set this attribute."

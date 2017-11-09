@@ -1,0 +1,37 @@
+- downscaled_gcm_base:
+  - include: downscaling_method
+  - {prefix: GCM, include: pcic_gcm_subset, description: GCM data that was downscaled}
+  - {prefix: target, include: generic_dataset, description: Downscaling target dataset}
+
+
+- downscaled_gcm:
+  - include: pcic_common_subset
+  - include: downscaled_gcm_base
+    description: Foo
+
+
+#- hydromodel_from_downscaled_gcm_base:
+#  - include: hydromodel_parameters
+#  - include: model_forcing
+#  - {prefix: downscaling, include: downscaled_gcm}
+#  - {prefix: model_cal, include: generic_dataset}
+#
+#
+#- hydromodel_from_downscaled_gcm:
+#  - include: pcic_common_subset
+#  - include: hydromodel_from_downscaled_gcm_base
+#
+#
+#- streamflow_from_hydromodel_ds_gcm_base:
+#  - include: streamflow_parameters
+#  - {prefix: hydromodel, include: hydromodel_from_downscaled_gcm_base}
+#
+#
+#- streamflow_from_hydromodel_ds_gcm:
+#  - include: pcic_common_subset
+#  - include: streamflow_from_hydromodel_ds_gcm_base
+
+
+#- :
+#  - include:
+#  - {prefix: , include: }

@@ -1,0 +1,4 @@
+Downscaling method
+method,PCIC,M,Human friendly string identifying the downscaling method used.
+method_id,PCIC,M,"Abbreviation identifying the downscaling method used, appropriate for forming filenames and other short identifiers."
+package_id,PCIC,M,"String identifying the package used to perform the downscaling. May take any useful form; for example, a github repo and commit identifier or an R package name and version number."

@@ -1,0 +1,65 @@
+#!python
+from argparse import ArgumentParser
+import sys
+from pkg_resources import resource_filename
+
+import pcic_metadata_standard
+from pcic_metadata_standard import all_metadata_sets
+
+
+def list_attributes(metadata_sets, args):
+    metadata_set = metadata_sets[args.set_name]
+    for component in metadata_set.components():
+        print(component.description)
+        for attribute in component.attributes():
+            print('  ', attribute['name'])
+
+
+def list_metadata_set_names(metadata_sets, args):
+    for name in metadata_sets.keys():
+        print(name)
+
+
+if __name__ == '__main__':
+    main_parser = ArgumentParser()
+    main_parser.add_argument(
+        '-a', '--atomics',
+        help='Filepath of atomics data directory to load',
+        default=resource_filename(
+            pcic_metadata_standard.__name__, 'data/atomic')
+    )
+    main_parser.add_argument(
+        '-c', '--composites',
+        help='Filepath of composites definition file to process',
+        default=resource_filename(
+            pcic_metadata_standard.__name__,
+            'data/composite/all_composites.yaml'
+        )
+    )
+
+    subparsers = main_parser.add_subparsers()
+
+    # sub-command: attributes
+    attributes_parser = subparsers.add_parser(
+        'attributes',
+        help='List attribute names in a metadata set'
+    )
+    attributes_parser.add_argument(
+        'set_name',
+        help='Name of metadata attribute set'
+    )
+    attributes_parser.set_defaults(action=list_attributes)
+
+    # sub-command: sets
+    sets_parser = subparsers.add_parser(
+        'sets',
+        help='List names of defined metadata sets'
+    )
+    sets_parser.set_defaults(action=list_metadata_set_names)
+
+
+    # Parse args and dispatch to action handler
+    args = main_parser.parse_args()
+    metadata_sets = all_metadata_sets(args.atomics, args.composites)
+    exit_status = args.action(metadata_sets, args)
+    sys.exit(exit_status)
