@@ -1,3 +1,4 @@
+Common to all PCIC data files (test version)
 contact,CMIP5,M,Name and contact information of person who can provide more information about the data.
 Conventions,CMIP5,M, = 'CF-1.4'
 creation_date,CMIP5,M,"String representation of the date when the file was created in the (ISO-8601) format: 

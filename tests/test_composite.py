@@ -7,8 +7,10 @@ from pcic_metadata_standard import \
 
 def test_composite(atomic_dummy, atomic_pcic_common_subset):
     composite = Composite(
-        (None, atomic_dummy),
-        ('pfx', atomic_pcic_common_subset),
+        'test', [
+            {'metadata_set': atomic_dummy},
+            {'prefix': 'pfx', 'metadata_set': atomic_pcic_common_subset}
+        ]
     )
     assert all(isinstance(component, Prefixed)
                for component in composite.components())
@@ -17,17 +19,23 @@ def test_composite(atomic_dummy, atomic_pcic_common_subset):
 @pytest.mark.parametrize('atomics, composite_defns', [
     (['dummy', 'pcic_common_subset'],
      [
-         {'foo': [
-             {'prefix': None, 'include': 'dummy'}
-         ]},
-         {'bar': [
-             {'prefix': 'pfx', 'include': 'dummy'}
-         ]},
-         {'qux': [
-             {'include': 'dummy'},
-             {'prefix': 'pfx', 'include': 'dummy'},
-             {'prefix': 'other', 'include': 'pcic_common_subset'},
-         ]},
+         {'foo': {
+             'specification': [
+                 {'prefix': None, 'include': 'dummy'},
+             ]
+         }},
+         {'bar': {
+             'specification': [
+                 {'prefix': 'pfx', 'include': 'dummy'}
+             ]
+         }},
+         {'qux': {
+             'specification': [
+                 {'include': 'dummy'},
+                 {'prefix': 'pfx', 'include': 'dummy'},
+                 {'prefix': 'other', 'include': 'pcic_common_subset'},
+             ]
+         }},
      ]),
 ], indirect=['atomics'])
 def test_create_metadata_sets(atomics, composite_defns):
@@ -45,27 +53,27 @@ def test_create_metadata_sets(atomics, composite_defns):
                for name in composites_keys)
 
 
-    def get_defn(name):
+    def get_specification(name):
         for definitions in composite_defns:
             for key, defn in definitions.items():
                 if key == name:
-                    return defn
+                    return defn['specification']
 
     # print()
     # for name in composites_keys:
-    #     print(name, get_defn(name))
+    #     print(name, get_specification(name))
     #     for i, component in enumerate(metadata_sets[name].components()):
     #         print('\t', i, component.prefix)
-    #         print('\t', i, get_defn(name)[i])
+    #         print('\t', i, get_specification(name)[i])
 
     assert all(
-        component.prefix == get_defn(name)[i].get('prefix', None)
+        component.prefix == get_specification(name)[i].get('prefix', None)
         for name in composites_keys
         for i, component in enumerate(metadata_sets[name].components())
     )
 
     assert all(
-        component.metadata_set == metadata_sets[get_defn(name)[i]['include']]
+        component.metadata_set == metadata_sets[get_specification(name)[i]['include']]
         for name in composites_keys
         for i, component in enumerate(metadata_sets[name].components())
     )

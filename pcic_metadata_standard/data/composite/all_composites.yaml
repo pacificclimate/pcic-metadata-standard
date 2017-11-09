@@ -1,13 +1,17 @@
 - downscaled_gcm_base:
-  - include: downscaling_method
-  - {prefix: GCM, include: pcic_gcm_subset, description: GCM data that was downscaled}
-  - {prefix: target, include: generic_dataset, description: Downscaling target dataset}
+    description: Foo
+    specification:
+      - {include: downscaling_method}
+      - {prefix: GCM, include: pcic_gcm_subset, role: GCM data that was downscaled}
+      - {prefix: target, include: generic_dataset, role: Downscaling target dataset}
 
 
 - downscaled_gcm:
-  - include: pcic_common_subset
-  - include: downscaled_gcm_base
-    description: Foo
+    description: Bar
+    specification:
+      - include: pcic_common_subset
+      - include: downscaled_gcm_base
+        description: Downscaling
 
 
 #- hydromodel_from_downscaled_gcm_base:

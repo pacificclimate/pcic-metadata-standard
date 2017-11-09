@@ -10,7 +10,7 @@ from pcic_metadata_standard import all_metadata_sets
 def list_attributes(metadata_sets, args):
     metadata_set = metadata_sets[args.set_name]
     for component in metadata_set.components():
-        print(component.description)
+        print(component.role)
         for attribute in component.attributes():
             print('  ', attribute['name'])
 

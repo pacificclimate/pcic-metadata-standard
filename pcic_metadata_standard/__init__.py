@@ -41,12 +41,12 @@ class Prefixed:
     metadata set with a prefix attached.
     """
 
-    def __init__(self, description, prefix, metadata_set):
+    def __init__(self, prefix=None, metadata_set=None, role=None):
         assert prefix is None or isinstance(prefix, str)
         assert isinstance(metadata_set, (Atomic, Composite))
-        self.description = description
         self.prefix = prefix
         self.metadata_set = metadata_set
+        self.role = role
 
     def attributes(self, prefix_separator='__'):
         prefix = self.prefix + prefix_separator if self.prefix else ''
@@ -64,10 +64,10 @@ class Composite:
     a list of prefixes and attribute sets
     """
 
-    def __init__(self, name, *specs):
+    def __init__(self, name, specs):
         assert isinstance(specs, (list, tuple))
         self.name = name
-        self._components = [Prefixed(*spec) for spec in specs]
+        self._components = [Prefixed(**spec) for spec in specs]
 
     def components(self):
         return self._components
@@ -102,13 +102,15 @@ def create_metadata_sets(atomics, composite_defns):
     the following content::
 
         {
-            <composite metadata set name>: [
-                {
-                    'prefix': <prefix>,
-                    'include': <metadata set name>,
-                },
-                ...
-            ]
+            <composite metadata set name>:
+                'description': <description>
+                'specification': [
+                    {
+                        'prefix': <prefix>,
+                        'include': <metadata set name>,
+                    },
+                    ...
+                ]
         }
 
     where
@@ -144,15 +146,15 @@ def create_metadata_sets(atomics, composite_defns):
         # a single list item, though we don't recommend it (order of maps is
         # arbitrary).
         for name, definition in definitions.items():
-            specs = (
-                (
-                    component.get('description', None),
-                    component.get('prefix', None),
-                    metadata_sets[component['include']]
-                )
-                for component in definition
-            )
-            metadata_sets[name] = Composite(name, *specs)
+            specs = [
+                {
+                    'prefix': component.get('prefix', None),
+                    'metadata_set': metadata_sets[component['include']],
+                    'role': component.get('role', None),
+                }
+                for component in definition['specification']
+            ]
+            metadata_sets[name] = Composite(name, specs)
     return metadata_sets
 
 
