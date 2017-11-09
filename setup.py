@@ -12,7 +12,7 @@ setup(
     keywords='science climate meteorology downscaling modelling climatology',
     zip_safe=True,
     install_requires='''
-        python-dateutil
+        PyYAML
     '''.split(),
     packages=['pcic_metadata_standard'],
     package_data = {
