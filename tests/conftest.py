@@ -1,12 +1,14 @@
 from pytest import fixture
 from pkg_resources import resource_filename
 
-from pcic_metadata_standard import Atomic
+from pcic_metadata_standard.loaders import load_atomic_from_csv
+from pcic_metadata_standard.visitors import PrintVisitor
+
 
 def atomic(name):
     filepath = resource_filename(
         __name__, 'data/atomic/test_{}.csv'.format(name))
-    return Atomic(name, filepath)
+    return load_atomic_from_csv(filepath)
 
 
 @fixture
@@ -29,3 +31,7 @@ def atomics(request):
     print(request.param)
     return { name: atomic(name) for name in request.param }
 
+
+@fixture
+def print_visitor():
+    return PrintVisitor()

@@ -1,5 +1,5 @@
 - downscaled_gcm_base:
-    description: Foo
+    description: Base metadata for downscaled GCM output
     specification:
       - {include: downscaling_method}
       - {prefix: GCM, include: pcic_gcm_subset, role: GCM data that was downscaled}
@@ -7,7 +7,7 @@
 
 
 - downscaled_gcm:
-    description: Bar
+    description: Downscaled GCM output
     specification:
       - include: pcic_common_subset
       - include: downscaled_gcm_base

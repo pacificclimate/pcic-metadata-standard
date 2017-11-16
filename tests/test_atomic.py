@@ -1,7 +1,7 @@
 import pytest
 from pkg_resources import resource_filename
 
-from pcic_metadata_standard import load_atomics
+from pcic_metadata_standard.loaders import load_atomics_from_csvs
 
 
 @pytest.mark.parametrize('atomic_dataset, attr_names', [
@@ -32,7 +32,7 @@ def test_atomic(atomic_dataset, attr_names):
 
 
 def test_load_atomics():
-    atomics = load_atomics(resource_filename(__name__, 'data/atomic'))
+    atomics = load_atomics_from_csvs(resource_filename(__name__, 'data/atomic'))
     assert set(atomics.keys()) >= {'test_dummy', 'test_pcic_common_subset'}
     assert all(atomic.name == key for key, atomic in atomics.items())
 

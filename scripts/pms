@@ -4,15 +4,15 @@ import sys
 from pkg_resources import resource_filename
 
 import pcic_metadata_standard
-from pcic_metadata_standard import all_metadata_sets
+from pcic_metadata_standard.loaders import load_all_metadata_sets
+from pcic_metadata_standard.visitors import PrintVisitor
 
+
+print_visitor = PrintVisitor()
 
 def list_attributes(metadata_sets, args):
     metadata_set = metadata_sets[args.set_name]
-    for component in metadata_set.components():
-        print(component.role)
-        for attribute in component.attributes():
-            print('  ', attribute['name'])
+    metadata_set.accept(print_visitor)
 
 
 def list_metadata_set_names(metadata_sets, args):
@@ -60,6 +60,6 @@ if __name__ == '__main__':
 
     # Parse args and dispatch to action handler
     args = main_parser.parse_args()
-    metadata_sets = all_metadata_sets(args.atomics, args.composites)
+    metadata_sets = load_all_metadata_sets(args.atomics, args.composites)
     exit_status = args.action(metadata_sets, args)
     sys.exit(exit_status)

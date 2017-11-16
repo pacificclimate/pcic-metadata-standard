@@ -1,13 +1,13 @@
 import pytest
 
 from pcic_metadata_standard import \
-    Atomic, Composite, Prefixed, \
-    create_metadata_sets
+    Atomic, Composite, Prefixed
+from pcic_metadata_standard.loaders import create_metadata_sets
 
 
 def test_composite(atomic_dummy, atomic_pcic_common_subset):
     composite = Composite(
-        'test', [
+        'test', 'Test', [
             {'metadata_set': atomic_dummy},
             {'prefix': 'pfx', 'metadata_set': atomic_pcic_common_subset}
         ]
@@ -20,16 +20,19 @@ def test_composite(atomic_dummy, atomic_pcic_common_subset):
     (['dummy', 'pcic_common_subset'],
      [
          {'foo': {
+             'description': 'Foo',
              'specification': [
                  {'prefix': None, 'include': 'dummy'},
              ]
          }},
          {'bar': {
+             'description': 'Bar',
              'specification': [
                  {'prefix': 'pfx', 'include': 'dummy'}
              ]
          }},
          {'qux': {
+             'description': 'Qux',
              'specification': [
                  {'include': 'dummy'},
                  {'prefix': 'pfx', 'include': 'dummy'},
