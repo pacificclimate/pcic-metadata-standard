@@ -86,7 +86,7 @@ class Prefixed(Visitable):
         assert isinstance(metadata_set, (Atomic, Composite))
         self.prefix = prefix
         self.metadata_set = metadata_set
-        self.role = role  # TODO: Remove
+        self.role = role
 
     def attributes(self, prefix_separator='__'):
         prefix = self.prefix + prefix_separator if self.prefix else ''
