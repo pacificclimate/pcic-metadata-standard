@@ -34,18 +34,9 @@ class Atomic(Visitable):
     attributes) is defined in a csv file."""
 
     def __init__(self, name, description, attributes):
-        """
-
-        """
         self.name = name
         self.description = description
-        self._attributes = attributes
-
-    def attributes(self):
-        return self._attributes
-
-    def components(self):
-        return [self]
+        self.attributes = attributes
 
     def accept(self, visitor):
         visitor.pre(self)
@@ -63,14 +54,11 @@ class Composite(Visitable):
         assert isinstance(specs, (list, tuple))
         self.name = name
         self.description = description
-        self._components = [Prefixed(**spec) for spec in specs]
-
-    def components(self):
-        return self._components
+        self.components = [Prefixed(**spec) for spec in specs]
 
     def accept(self, visitor):
         visitor.pre(self)
-        for component in self._components:
+        for component in self.components:
             component.accept(visitor)
         visitor.post(self)
 
@@ -87,15 +75,6 @@ class Prefixed(Visitable):
         self.prefix = prefix
         self.metadata_set = metadata_set
         self.role = role
-
-    def attributes(self, prefix_separator='__'):
-        prefix = self.prefix + prefix_separator if self.prefix else ''
-        return [
-            # make a copy and update 'name'
-            dict(attr, name=prefix + attr['name'])
-            for component in self.metadata_set.components()
-            for attr in component.attributes()
-        ]
 
     def accept(self, visitor):
         visitor.pre(self)
