@@ -43,8 +43,8 @@ class AttributeListVisitor(PmsVisitor):
         super().pre(node)
         if self.node_type == Atomic:
             for attribute in node._attributes:
-                self.attributes.append("{p}{n}".format(
-                    p=self.prefix(), n=attribute['name'])
+                self.attributes.append(
+                    dict(attribute, name=self.prefix() + attribute['name'])
                 )
 
 

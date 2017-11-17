@@ -21,8 +21,8 @@ def list_attributes_simple(metadata_sets, args):
     )
     metadata_set = metadata_sets[args.set_name]
     metadata_set.accept(attribute_list_visitor)
-    for name in attribute_list_visitor.attributes:
-        print(name)
+    for attribute in attribute_list_visitor.attributes:
+        print(attribute['name'])
 
 
 def list_attributes(metadata_sets, args):
