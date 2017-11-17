@@ -1,5 +1,5 @@
 - downscaled_gcm_base:
-    description: Base metadata for downscaled GCM output
+    description: Downscaled GCM output specifics
     specification:
       - {include: downscaling_method}
       - {prefix: GCM, include: pcic_gcm_subset, role: GCM data that was downscaled}
@@ -11,7 +11,6 @@
     specification:
       - include: pcic_common_subset
       - include: downscaled_gcm_base
-        description: Downscaling
 
 
 #- hydromodel_from_downscaled_gcm_base:
