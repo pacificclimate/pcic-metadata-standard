@@ -5,7 +5,7 @@ from pkg_resources import resource_filename
 
 import pcic_metadata_standard
 from pcic_metadata_standard.loaders import load_all_metadata_sets
-from pcic_metadata_standard.visitors import PrintVisitor
+from pcic_metadata_standard.visitors import AttributeListVisitor, PrintVisitor
 
 
 def args_dict(args, names):
@@ -15,9 +15,20 @@ def args_dict(args, names):
     return {name: getattr(args, name) for name in names
             if getattr(args, name, AttributeError) != AttributeError}
 
+def list_attributes_simple(metadata_sets, args):
+    attribute_list_visitor = AttributeListVisitor(
+        **args_dict(args, ['prefix_separator'])
+    )
+    metadata_set = metadata_sets[args.set_name]
+    metadata_set.accept(attribute_list_visitor)
+    for name in attribute_list_visitor.attributes:
+        print(name)
+
 
 def list_attributes(metadata_sets, args):
-    print_visitor = PrintVisitor(**args_dict(args, ['prefix_separator']))
+    print_visitor = PrintVisitor(
+        **args_dict(args, ['prefix_separator'])
+    )
     metadata_set = metadata_sets[args.set_name]
     metadata_set.accept(print_visitor)
 
@@ -61,6 +72,22 @@ if __name__ == '__main__':
         help='Name of metadata attribute set'
     )
     attributes_parser.set_defaults(action=list_attributes)
+
+    # sub-command: foo
+    foo_parser = subparsers.add_parser(
+        'list',
+        help='Simple list of attribute names in a metadata set'
+    )
+    foo_parser.add_argument(
+        'set_name',
+        help='Name of metadata attribute set'
+    )
+    foo_parser.add_argument(
+        '-p', '--prefix-separator', dest='prefix_separator',
+        default='__',
+        help='Name of metadata attribute set'
+    )
+    foo_parser.set_defaults(action=list_attributes_simple)
 
     # sub-command: sets
     sets_parser = subparsers.add_parser(
