@@ -42,7 +42,7 @@ class AttributeListVisitor(PmsVisitor):
     def pre(self, node):
         super().pre(node)
         if self.node_type == Atomic:
-            for attribute in node._attributes:
+            for attribute in node.attributes:
                 self.attributes.append(
                     dict(attribute, name=self.prefix() + attribute['name'])
                 )
@@ -86,7 +86,7 @@ class PrintVisitor(PmsVisitor):
                 i=self.indentation(), n=node.name, d=node.description)
             )
             self.indent()
-            for attribute in node._attributes:
+            for attribute in node.attributes:
                 print("{i}{p}{n}".format(
                     i=self.indentation(), p=self.prefix(), n=attribute['name'])
                 )

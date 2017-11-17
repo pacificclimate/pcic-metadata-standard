@@ -13,7 +13,7 @@ def test_composite(atomic_dummy, atomic_pcic_common_subset):
         ]
     )
     assert all(isinstance(component, Prefixed)
-               for component in composite.components())
+               for component in composite.components)
 
 
 @pytest.mark.parametrize('atomics, composite_defns', [
@@ -65,18 +65,18 @@ def test_create_metadata_sets(atomics, composite_defns):
     # print()
     # for name in composites_keys:
     #     print(name, get_specification(name))
-    #     for i, component in enumerate(metadata_sets[name].components()):
+    #     for i, component in enumerate(metadata_sets[name].components):
     #         print('\t', i, component.prefix)
     #         print('\t', i, get_specification(name)[i])
 
     assert all(
         component.prefix == get_specification(name)[i].get('prefix', None)
         for name in composites_keys
-        for i, component in enumerate(metadata_sets[name].components())
+        for i, component in enumerate(metadata_sets[name].components)
     )
 
     assert all(
         component.metadata_set == metadata_sets[get_specification(name)[i]['include']]
         for name in composites_keys
-        for i, component in enumerate(metadata_sets[name].components())
+        for i, component in enumerate(metadata_sets[name].components)
     )
