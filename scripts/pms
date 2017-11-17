@@ -8,9 +8,16 @@ from pcic_metadata_standard.loaders import load_all_metadata_sets
 from pcic_metadata_standard.visitors import PrintVisitor
 
 
-print_visitor = PrintVisitor()
+def args_dict(args, names):
+    """Return a dict containing arguments selected by name
+    from the ``args`` parameter.
+    """
+    return {name: getattr(args, name) for name in names
+            if getattr(args, name, AttributeError) != AttributeError}
+
 
 def list_attributes(metadata_sets, args):
+    print_visitor = PrintVisitor(**args_dict(args, ['prefix_separator']))
     metadata_set = metadata_sets[args.set_name]
     metadata_set.accept(print_visitor)
 
@@ -46,6 +53,11 @@ if __name__ == '__main__':
     )
     attributes_parser.add_argument(
         'set_name',
+        help='Name of metadata attribute set'
+    )
+    attributes_parser.add_argument(
+        '-p', '--prefix-separator', dest='prefix_separator',
+        default='__',
         help='Name of metadata attribute set'
     )
     attributes_parser.set_defaults(action=list_attributes)
